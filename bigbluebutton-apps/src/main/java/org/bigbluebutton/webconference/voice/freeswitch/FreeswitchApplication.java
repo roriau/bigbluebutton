@@ -30,6 +30,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import org.bigbluebutton.webconference.voice.ConferenceServiceProvider;
 import org.bigbluebutton.webconference.voice.events.ConferenceEventListener;
+import org.bigbluebutton.webconference.voice.events.ConferenceEventSender;
 import org.bigbluebutton.webconference.voice.events.ParticipantJoinedEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantLeftEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantMutedEvent;
@@ -51,7 +52,8 @@ public class FreeswitchApplication extends Observable implements ConferenceServi
     private static Logger log = Red5LoggerFactory.getLogger(FreeswitchApplication.class, "bigbluebutton");
 
     private ManagerConnection manager;
-    private ConferenceEventListener conferenceEventListener;
+    //private ConferenceEventListener conferenceEventListener;
+    private ConferenceEventSender conferenceEventSender;
     private FreeswitchHeartbeatMonitor heartbeatMonitor;
     private boolean debug = false;
 
@@ -103,7 +105,8 @@ public class FreeswitchApplication extends Observable implements ConferenceServi
     public void populateRoom(String room) {
         PopulateRoomCommand prc = new PopulateRoomCommand(room, USER);
         EslMessage response = manager.getESLClient().sendSyncApiCommand(prc.getCommand(), prc.getCommandArgs());
-        prc.handleResponse(response, conferenceEventListener);
+        //prc.handleResponse(response, conferenceEventListener);
+        prc.handleResponse(response,conferenceEventSender);
     }
 
     @Override
@@ -143,28 +146,32 @@ public class FreeswitchApplication extends Observable implements ConferenceServi
 
         ParticipantJoinedEvent pj = new ParticipantJoinedEvent(memberId, confName,
                         callerId, callerIdName, muted, speeking);
-        conferenceEventListener.handleConferenceEvent(pj);
+        //conferenceEventListener.handleConferenceEvent(pj);
+        this.conferenceEventSender.produce(pj);
     }
 
     @Override
     public void conferenceEventLeave(String uniqueId, String confName, int confSize, EslEvent event) {
         Integer memberId = this.getMemeberIdFromEvent(event);
         ParticipantLeftEvent pl = new ParticipantLeftEvent(memberId, confName);
-        conferenceEventListener.handleConferenceEvent(pl);
+        //conferenceEventListener.handleConferenceEvent(pl);
+        this.conferenceEventSender.produce(pl);
     }
 
     @Override
     public void conferenceEventMute(String uniqueId, String confName, int confSize, EslEvent event) {
         Integer memberId = this.getMemeberIdFromEvent(event);
         ParticipantMutedEvent pm = new ParticipantMutedEvent(memberId, confName, true);
-        conferenceEventListener.handleConferenceEvent(pm);
+        //conferenceEventListener.handleConferenceEvent(pm);
+        this.conferenceEventSender.produce(pm);
     }
 
     @Override
     public void conferenceEventUnMute(String uniqueId, String confName, int confSize, EslEvent event) {
         Integer memberId = this.getMemeberIdFromEvent(event);
         ParticipantMutedEvent pm = new ParticipantMutedEvent(memberId, confName, false);
-        conferenceEventListener.handleConferenceEvent(pm);
+        //conferenceEventListener.handleConferenceEvent(pm);
+        this.conferenceEventSender.produce(pm);
     }
 
     @Override
@@ -187,16 +194,18 @@ public class FreeswitchApplication extends Observable implements ConferenceServi
             }
             return;
         }
-
+        
         try {
             switch(ESL_EVENT_ACTIONS_MAP.get(action)) {
                 case ESL_ACTION_START_TALKING:
                     pt = new ParticipantTalkingEvent(memberId, confName, true);
-                    conferenceEventListener.handleConferenceEvent(pt);
+                    //conferenceEventListener.handleConferenceEvent(pt);
+                    this.conferenceEventSender.produce(pt);
                     break;
                 case ESL_ACTION_STOP_TALKING:
                     pt = new ParticipantTalkingEvent(memberId, confName, false);
-                    conferenceEventListener.handleConferenceEvent(pt);
+                    //conferenceEventListener.handleConferenceEvent(pt);
+                    this.conferenceEventSender.produce(pt);
                     break;
                 default:
                     log.debug("Unknown conference Action [{}]", action);
@@ -237,8 +246,11 @@ public class FreeswitchApplication extends Observable implements ConferenceServi
         this.manager = manager;
     }
 
-    public void setConferenceEventListener(ConferenceEventListener listener) {
-        this.conferenceEventListener = listener;
+    //public void setConferenceEventListener(ConferenceEventListener listener) {
+        //this.conferenceEventListener = listener;
+    //}
+    public void setConferenceEventSender(ConferenceEventSender sender) {
+    	this.conferenceEventSender = sender;
     }
 
     public void setDebugNullConferenceAction(boolean enabled) {

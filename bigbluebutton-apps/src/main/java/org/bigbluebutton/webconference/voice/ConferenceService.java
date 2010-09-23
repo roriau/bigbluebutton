@@ -23,16 +23,23 @@ package org.bigbluebutton.webconference.voice;
 
 import java.util.ArrayList;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
+
 import org.bigbluebutton.webconference.voice.events.ConferenceEvent;
-import org.bigbluebutton.webconference.voice.events.ConferenceEventListener;
+//import org.bigbluebutton.webconference.voice.events.ConferenceEventListener;
+import org.bigbluebutton.webconference.voice.events.ConferenceEventSender;
 import org.bigbluebutton.webconference.voice.events.ParticipantLockedEvent;
 import org.bigbluebutton.webconference.voice.internal.RoomManager;
 
-public class ConferenceService implements ConferenceEventListener {
+public class ConferenceService implements MessageListener {
 
 	private RoomManager roomMgr;
 	private ConferenceServiceProvider confProvider;
-	private ConferenceEventListener conferenceEventListener;
+	private ConferenceEventSender conferenceEventSender;
+	//private ConferenceEventListener conferenceEventListener;
 	
 	public void startup() {
 		roomMgr = new RoomManager(this);
@@ -58,7 +65,8 @@ public class ConferenceService implements ConferenceEventListener {
 		if (roomMgr.hasParticipant(room, participant)) {
 //			roomMgr.lockParticipant(participant, room, lock);
 			ParticipantLockedEvent ple = new ParticipantLockedEvent(participant, room, lock);
-			conferenceEventListener.handleConferenceEvent(ple);
+			//conferenceEventListener.handleConferenceEvent(ple);
+			conferenceEventSender.produce(ple);
 		}			
 	}
 	
@@ -120,7 +128,25 @@ public class ConferenceService implements ConferenceEventListener {
 		confProvider = c;
 	}
 	
-	public void setConferenceEventListener(ConferenceEventListener l) {
-		conferenceEventListener = l;
+	//public void setConferenceEventListener(ConferenceEventListener l) {
+		//conferenceEventListener = l;
+	//}
+
+	public void setConferenceEventSender(ConferenceEventSender sen) {
+		conferenceEventSender = sen;
 	}
+	
+	@Override
+	public void onMessage(Message message) {
+		if(message instanceof ObjectMessage){
+            try{
+                ConferenceEvent objmsg=(ConferenceEvent)((ObjectMessage)message).getObject();
+                if(objmsg instanceof ConferenceEvent){
+                	handleConferenceEvent(objmsg);
+                }
+            }catch(JMSException ex){
+                
+            }
+        }
+	}	
 }

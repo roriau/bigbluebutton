@@ -24,6 +24,7 @@ package org.bigbluebutton.webconference.voice.freeswitch.actions;
 
 import org.freeswitch.esl.client.transport.message.EslMessage;
 import org.bigbluebutton.webconference.voice.events.ConferenceEventListener;
+import org.bigbluebutton.webconference.voice.events.ConferenceEventSender;
 import org.bigbluebutton.webconference.voice.events.ParticipantJoinedEvent;
 import org.bigbluebutton.webconference.voice.freeswitch.response.XMLResponseConferenceListParser;
 import org.bigbluebutton.webconference.voice.freeswitch.response.ConferenceMember;
@@ -50,8 +51,8 @@ public class PopulateRoomCommand extends FreeswitchCommand {
         return getRoom() + SPACE + "xml_list";
     }
 
-    public void handleResponse(EslMessage response, ConferenceEventListener eventListener) {
-
+    //public void handleResponse(EslMessage response, ConferenceEventListener eventListener) {
+    public void handleResponse(EslMessage response,ConferenceEventSender sender) {
         //Test for Known Conference
 
         String firstLine = response.getBodyLines().get(0);
@@ -94,7 +95,8 @@ public class PopulateRoomCommand extends FreeswitchCommand {
                 //Foreach found member in conference create a JoinedEvent
                 pj = new ParticipantJoinedEvent(member.getId(), confXML.getConferenceRoom(),
                                 member.getCallerId(), member.getCallerIdName(), member.getMuted(), member.getSpeeking());
-                eventListener.handleConferenceEvent(pj);
+                //eventListener.handleConferenceEvent(pj);
+        		sender.produce(pj);
             }
 
         }catch(SAXException se) {

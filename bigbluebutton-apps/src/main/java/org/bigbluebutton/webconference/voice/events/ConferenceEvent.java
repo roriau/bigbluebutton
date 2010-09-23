@@ -21,7 +21,10 @@
  */
 package org.bigbluebutton.webconference.voice.events;
 
-public abstract class ConferenceEvent {
+public abstract class ConferenceEvent implements java.io.Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private final Integer participantId;
 	private final String room;
 	

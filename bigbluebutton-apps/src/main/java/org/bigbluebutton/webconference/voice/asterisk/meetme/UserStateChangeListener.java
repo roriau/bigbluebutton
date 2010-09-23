@@ -26,7 +26,8 @@ import java.beans.PropertyChangeListener;
 
 import org.asteriskjava.live.MeetMeUser;
 import org.asteriskjava.live.MeetMeUserState;
-import org.bigbluebutton.webconference.voice.events.ConferenceEventListener;
+import org.bigbluebutton.webconference.voice.events.ConferenceEvent;
+import org.bigbluebutton.webconference.voice.events.ConferenceEventSender;
 import org.bigbluebutton.webconference.voice.events.ParticipantJoinedEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantLeftEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantMutedEvent;
@@ -41,31 +42,33 @@ public class UserStateChangeListener implements PropertyChangeListener {
     String PROPERTY_MUTED = "muted";
     String PROPERTY_STATE = "state";
     
-	private ConferenceEventListener conferenceEventListener;
-	
+	//private ConferenceEventListener conferenceEventListener;
+	private ConferenceEventSender conferenceEventSender;
+    
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		MeetMeUser cu = (MeetMeUser) evt.getSource();
-		
+		ConferenceEvent confevt=null;
 		log.debug("Received property changed event for " + evt.getPropertyName() +
 				" old = '" + evt.getOldValue() + "' new = '" + evt.getNewValue() +
 				"' room = '" + ((MeetMeUser) evt.getSource()).getRoom() + "'");	
 		
 		if (evt.getPropertyName().equals(MeetMeUser.PROPERTY_MUTED)) {	
-			ParticipantMutedEvent pme = new ParticipantMutedEvent(cu.getUserNumber(), 
+			confevt = new ParticipantMutedEvent(cu.getUserNumber(), 
 								cu.getRoom().getRoomNumber(), cu.isMuted());
-			conferenceEventListener.handleConferenceEvent(pme);
+			//conferenceEventListener.handleConferenceEvent(pme);
 		} else if (evt.getPropertyName().equals(MeetMeUser.PROPERTY_TALKING)) {	
-			ParticipantTalkingEvent pte = new ParticipantTalkingEvent(cu.getUserNumber(),
+			confevt = new ParticipantTalkingEvent(cu.getUserNumber(),
 								cu.getRoom().getRoomNumber(), cu.isTalking());
-			conferenceEventListener.handleConferenceEvent(pte);
+			//conferenceEventListener.handleConferenceEvent(pte);
 		} else if (MeetMeUser.PROPERTY_STATE.equals(evt.getPropertyName())) {
 			if (MeetMeUserState.LEFT == (MeetMeUserState) evt.getNewValue()) {
-				ParticipantLeftEvent ple = new ParticipantLeftEvent(cu.getUserNumber(),
+				confevt = new ParticipantLeftEvent(cu.getUserNumber(),
 								cu.getRoom().getRoomNumber());
-				conferenceEventListener.handleConferenceEvent(ple);
+				//conferenceEventListener.handleConferenceEvent(ple);
 			}
 		}
+		this.conferenceEventSender.produce(confevt);
 	}
 
 	public void handleNewUserJoined(MeetMeUser user) {	
@@ -77,12 +80,16 @@ public class UserStateChangeListener implements PropertyChangeListener {
 		
 		ParticipantJoinedEvent pje = new ParticipantJoinedEvent(userid, 
 										room, username,	username, muted, talking);
-		conferenceEventListener.handleConferenceEvent(pje);
+		this.conferenceEventSender.produce(pje);
+		//conferenceEventListener.handleConferenceEvent(pje);
     }
 	
-	public void setConferenceEventListener(ConferenceEventListener l) {
+	/*public void setConferenceEventListener(ConferenceEventListener l) {
 		log.debug("setting conference listener");
 		conferenceEventListener = l;
 		log.debug("setting conference listener DONE");
+	}*/
+	public void setConferenceEventSender(ConferenceEventSender sender){
+		this.conferenceEventSender=sender;
 	}
 }

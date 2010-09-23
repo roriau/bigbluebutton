@@ -26,6 +26,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
+
 import org.bigbluebutton.webconference.voice.events.ConferenceEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantJoinedEvent;
 import org.bigbluebutton.webconference.voice.events.ParticipantLeftEvent;
@@ -36,7 +41,7 @@ import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.api.so.ISharedObject;
 import org.slf4j.Logger;
 
-public class ClientManager implements ClientNotifier {
+public class ClientManager implements ClientNotifier,MessageListener {
 	private static Logger log = Red5LoggerFactory.getLogger(ClientManager.class, "bigbluebutton");
 
 	private final ConcurrentMap<String, RoomInfo> voiceRooms;
@@ -135,4 +140,20 @@ public class ClientManager implements ClientNotifier {
 			locked(ple.getRoom(), ple.getParticipantId(), ple.isLocked());
 		}
 	}
+
+	@Override
+	public void onMessage(Message message) {
+		if(message instanceof ObjectMessage){
+            try{
+                ConferenceEvent objmsg=(ConferenceEvent)((ObjectMessage)message).getObject();
+                if(objmsg instanceof ConferenceEvent){
+                	handleConferenceEvent(objmsg);
+                }
+            }catch(JMSException ex){
+                
+            }
+        }
+	}
+	
+	
 }
