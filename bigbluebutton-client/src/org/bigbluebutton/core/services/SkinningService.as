@@ -22,8 +22,8 @@ package org.bigbluebutton.core.services
 	
 	public class SkinningService
 	{
-		public function loadSkins(skin:String):void {
-			if (skin != "") StyleManager.loadStyleDeclarations(skin); 
+		public function loadSkins(skin:String):void { 
+			//if (skin != "") StyleManager.loadStyleDeclarations(skin); 
 		}
 	}
 }

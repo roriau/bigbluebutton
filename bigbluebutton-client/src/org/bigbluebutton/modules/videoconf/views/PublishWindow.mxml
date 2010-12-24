@@ -27,7 +27,6 @@
 	creationComplete="init()"
 	width="{camWidth + 6}" height="{camHeight + 73}" 
 	title="{ResourceUtil.getInstance().getString('bbb.publishVideo.title')}" 
-	backgroundImage="{bbbLogo}" 
 	resizable="false" 
 	xmlns:mate="http://mate.asfusion.com/">
 	

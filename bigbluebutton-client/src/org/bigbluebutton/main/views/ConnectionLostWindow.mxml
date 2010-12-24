@@ -26,13 +26,14 @@
 		<![CDATA[
 			import flash.net.navigateToURL;
 			
+			import mx.core.FlexGlobals;
 			import mx.managers.PopUpManager;
 			
 			import org.bigbluebutton.main.model.users.events.UsersConnectionEvent;
 			
 			private function connectionReestablished(e:UsersConnectionEvent):void{
-				var pageURL:String = mx.core.Application.application.url.split("/")[2];
-				var url:URLRequest = new URLRequest(mx.core.Application.application.url);
+				var pageURL:String = FlexGlobals.topLevelApplication.url.split("/")[2];
+				var url:URLRequest = new URLRequest(FlexGlobals.topLevelApplication.url);
 				navigateToURL(url, '_self');
 				PopUpManager.removePopUp(this);
 			}
