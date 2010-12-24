@@ -103,6 +103,11 @@
 				<include-resource-bundles>bbbResources</include-resource-bundles>
 				<include-resource-bundles>core</include-resource-bundles>
 				<include-resource-bundles>controls</include-resource-bundles>
+				<include-resource-bundles>components</include-resource-bundles>
+				<include-resource-bundles>effects</include-resource-bundles>
+				<include-resource-bundles>layout</include-resource-bundles>
+				<include-resource-bundles>skins</include-resource-bundles>
+				<include-resource-bundles>styles</include-resource-bundles>
 				<source-path path-element="${FLEX_HOME}/frameworks"/>
 			</mxmlc>
 		</sequential>
