@@ -20,7 +20,7 @@
  */
 package org.bigbluebutton.web.services
 
-import org.bigbluebutton.conference.Room
+//import org.bigbluebutton.conference.Room
 import java.util.concurrent.ConcurrentHashMap
 import org.apache.commons.collections.bidimap.DualHashBidiMap
 import java.util.*;
@@ -58,6 +58,36 @@ public class DynamicConferenceService {
 		meetingService = new MeetingServiceImp();
 	}
 	
+	void cleanupOldConferences() {
+		println("Cleaning out old conferences");
+		for (DynamicConference conf : confsByMtgID.values()) {
+			boolean remove = false;
+			if (conf.isRunning()) {
+				println "Meeting [" + conf.getMeetingID() + "] is running - not cleaning it out"
+				// won't remove one that's running
+				continue;
+			}
+			
+			long millisSinceStored = conf.getStoredTime() == null ? -1 : (System.currentTimeMillis() - conf.getStoredTime().getTime());
+			long millisSinceEnd = conf.getEndTime() == null ? -1 : (System.currentTimeMillis() - conf.getEndTime().getTime());
+			if (conf.getStartTime() != null && millisSinceEnd > (minutesElapsedBeforeMeetingExpiration * 60000)) {
+				println("Removing meeting because it started, ended, and is past the max expiration");
+				remove = true;
+			} else if (conf.getEndTime() == null && millisSinceStored > (minutesElapsedBeforeMeetingExpiration * 60000)) {
+				println("Removing meeting because it was stored, but never started [stored " + millisSinceStored + " millis ago]");
+				remove = true;
+			}
+			
+			if (remove) {
+				println "Removing meeting [" + conf.getMeetingToken() + "]"
+				confsByMtgID.remove(conf.getMeetingID());
+				//roomsByToken.remove(conf.getMeetingToken());
+				tokenMap.remove(conf.getMeetingToken());
+			} else {
+				println "Not removing meeting [" + conf.getMeetingID() + "]"
+			}
+		}
+	}
 	
 	public Collection<Meeting> getAllMeetings() {
 		return confsByMtgID.isEmpty() ? Collections.emptySet() : Collections.unmodifiableCollection(confsByMtgID.values());
@@ -88,7 +118,7 @@ public class DynamicConferenceService {
 		}
 	}
 	
-	public Room getRoomByMeetingID(String meetingID) {
+	/*public Room getRoomByMeetingID(String meetingID) {
 		if (meetingID == null) {
 			return null;
 		}
@@ -98,7 +128,7 @@ public class DynamicConferenceService {
 			return null;
 		}
 		return roomsByToken.get(token);
-	}
+	}*/
 	
 	public Meeting getMeetingByMeetingID(String meetingID) {
 		if (meetingID == null) {
@@ -131,7 +161,7 @@ public class DynamicConferenceService {
 	}
 		
 	// these methods called by spring integration:
-	public void conferenceStarted(Room room) {
+	/*public void conferenceStarted(Room room) {
 		log.debug "conference started: " + room.getName();
 		participantsUpdated(room);
 		Meeting conf = getConferenceByToken(room.getName());
@@ -154,8 +184,8 @@ public class DynamicConferenceService {
 	public void participantsUpdated(Room room) {
 		log.debug "participants updated: " + room.getName();
 		System.out.println("participants updated: " + room.getName())
-		roomsByToken.put(room.getName(), room);
-	}
+		//roomsByToken.put(room.getName(), room);
+	}*/
 	// end of spring integration-called methods
 	
 	//these methods are without using bbb-commons
@@ -186,7 +216,19 @@ public class DynamicConferenceService {
 		}
 	}
 	
-	public void participantsUpdatedRemove(String roomname, String userid) {
+	public void participantsUpdatedStatus(String roomname, String userid, String status, String value) {
+		log.debug "redis: participants updated join: " + roomname;
+		DynamicConference conf = getConferenceByToken(roomname);
+		if(conf!=null){
+			for(DynamicConferenceParticipant dcp: conf.getParticipants()){
+				if(dcp.getUserid().equalsIgnoreCase(userid))
+					dcp.setStatus(status,value);
+			}
+			log.debug "redis: update status"
+		}
+	}
+	
+	public void participantsUpdatedLeft(String roomname, String userid) {
 		log.debug "redis: participants updated remove: " + roomname;
 		System.out.println("participants updated: " + roomname);
 		Meeting conf = getConferenceByToken(roomname);
@@ -196,12 +238,13 @@ public class DynamicConferenceService {
 		}
 	}
 	
+	//TODO: update accordinly
 	public void processRecording(String meetingId) {
-		System.out.println("enter processRecording " + meetingId)
-		Room room = roomsByToken.get(meetingId)
-		if (room != null) {
-			System.out.println("Number of participants in room " + room.getNumberOfParticipants())
-			if (room.getNumberOfParticipants() == 0) {
+		System.out.println("enter processRecording " + meetingId);
+		DynamicConference conf = getConferenceByToken(roomname);
+		if (conf != null) {
+			System.out.println("Number of participants in room " +conf.getNumberOfParticipants())
+			if (conf.getNumberOfParticipants() == 0) {
 				System.out.println("starting processRecording " + meetingId)
 				// Run conversion on another thread.
 				new Timer().runAfter(1000) {

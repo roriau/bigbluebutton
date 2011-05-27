@@ -61,8 +61,9 @@ class ApiController {
 		
 	DynamicConferenceService dynamicConferenceService;
 	PresentationService presentationService
-	IApiConferenceEventListener conferenceEventListener;
-	org.bigbluebutton.api.IRedisDispatcher redisDispatcher;
+	//IApiConferenceEventListener conferenceEventListener;
+	
+	org.bigbluebutton.redis.RedisDispatcher redisPublisher;
 
 	/* general methods */
 	def index = {
@@ -408,7 +409,7 @@ class ApiController {
 		Meeting conf = dynamicConferenceService.getConferenceByMeetingID(mtgID);
 		Room room = dynamicConferenceService.getRoomByMeetingID(mtgID);
 		
-		if (conf == null || room == null) {
+		if (conf == null ){ //|| room == null) {
 			invalid("notFound", "We could not find a meeting with that meeting ID - perhaps the meeting is not yet running?");
 			return;
 		}
@@ -419,8 +420,8 @@ class ApiController {
 		
 		conf.setForciblyEnded(true);
 		
-		conferenceEventListener.endMeetingRequest(room);
-//		redisDispatcher.publish();
+		//conferenceEventListener.endMeetingRequest(room);
+		redisPublisher.publish("bigbluebutton:meeting:request",conf.getMeetingToken()+":end");
 		
 		response.addHeader("Cache-Control", "no-cache")
 		withFormat {	
@@ -459,7 +460,7 @@ class ApiController {
 			invalidPassword("You must supply the moderator password for this call."); return;
 		}
 
-		respondWithConferenceDetails(conf, room, null, null);
+		respondWithConferenceDetails2(conf, room, null, null);
 	}
 	
 	def getMeetings = {
@@ -470,8 +471,7 @@ class ApiController {
 		}
 
 		// check for existing:
-		Collection<Meeting> confs = dynamicConferenceService.getAllConferences();
-		
+		Collection<Meeting> confs = dynamicConferenceService.getAllConferences();		
 		if (confs == null || confs.size() == 0) {
 			response.addHeader("Cache-Control", "no-cache")
 			withFormat {	
@@ -659,7 +659,7 @@ class ApiController {
 		}
 	}
 
-	def respondWithConferenceDetails(conf, room, msgKey, msg) {
+	/*def respondWithConferenceDetails(conf, room, msgKey, msg) {
 		response.addHeader("Cache-Control", "no-cache")
 		withFormat {				
 			xml {
@@ -690,9 +690,9 @@ class ApiController {
 				}
 			}
 		}			 
-	}
+	}*/
 	
-	def respondWithConferenceDetails2(conf, room, msgKey, msg) {
+	def respondWithConferenceDetails2(conf, msgKey, msg) {
 		response.addHeader("Cache-Control", "no-cache")
 		withFormat {
 			xml {
