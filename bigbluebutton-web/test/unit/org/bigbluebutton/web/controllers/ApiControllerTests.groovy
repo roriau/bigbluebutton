@@ -21,6 +21,13 @@ class ApiControllerTests extends ControllerUnitTestCase {
 		println "controller response = " + controller.response.contentAsString
     }
 	
-	
+	void testCreateAPI() {
+		ApiController controller = new ApiController()
+		def service = mockFor(DynamicConferenceService)
+		service.demand.apiVersion(1..1) { -> return 1 }
+		controller.setDynamicConferenceService(service.createMock())
+		controller.create()
+		println "controller response = " + controller.response.contentAsString
+	}
 	
 }

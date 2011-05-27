@@ -29,6 +29,7 @@ import org.bigbluebutton.api.domain.Meeting;
 import org.bigbluebutton.api.domain.Participant;
 import org.bigbluebutton.api.IRedisDispatcher
 import org.bigbluebutton.api.RedisDispatcherImp;
+import org.bigbluebutton.web.services.MeetingServiceImp;
 
 public class DynamicConferenceService {	
 	static transactional = false
@@ -50,55 +51,13 @@ public class DynamicConferenceService {
 	def redisPort
 	
 	IRedisDispatcher redisDispatcher
-	
-	// TODO: need to remove use of DynamicConference and make it use "Room.groovy" instead
-	//				so that both apps and web are using common domain objects and we don't map between them
-	private final Map<String, Room> roomsByToken
-	private final Map<String, Meeting> confsByMtgID
-	private final Map<String, String> tokenMap
+	MeetingService meetingService
 	
 	public DynamicConferenceService() {
-		confsByMtgID = new ConcurrentHashMap<String, Meeting>()
-		tokenMap = new DualHashBidiMap<String, String>()
-		roomsByToken = new ConcurrentHashMap<String, Room>()
 		redisDispatcher = new RedisDispatcherImp();
-		
-		// wait one minute to run, and run every five minutes:
-		TimerTask task = new DynamicConferenceServiceCleanupTimerTask((IMeetingService) this);
-		new Timer("api-cleanup", true).scheduleAtFixedRate(task, 60000, 300000);
-		// PS - <rant> I hate Groovy - no inline (anonymous or inner) class support (until 1.7)?  Come on!  Closures aren't the be-all-end-all </rant>
+		meetingService = new MeetingServiceImp();
 	}
 	
-	public void cleanupOldMeetings() {
-		println("Cleaning out old conferences");
-		for (Meeting conf : confsByMtgID.values()) {
-			boolean remove = false;
-			if (conf.isRunning()) {
-				println "Meeting [" + conf.getMeetingID() + "] is running - not cleaning it out"
-				// won't remove one that's running
-				continue;
-			}
-			
-			long millisSinceStored = conf.getStoredTime() == null ? -1 : (System.currentTimeMillis() - conf.getStoredTime().getTime());
-			long millisSinceEnd = conf.getEndTime() == null ? -1 : (System.currentTimeMillis() - conf.getEndTime().getTime());
-			if (conf.getStartTime() != null && millisSinceEnd > (minutesElapsedBeforeMeetingExpiration * 60000)) {
-				println("Removing meeting because it started, ended, and is past the max expiration");
-				remove = true;
-			} else if (conf.getEndTime() == null && millisSinceStored > (minutesElapsedBeforeMeetingExpiration * 60000)) {
-				println("Removing meeting because it was stored, but never started [stored " + millisSinceStored + " millis ago]");
-				remove = true;
-			}
-			
-			if (remove) {
-				println "Removing meeting [" + conf.getMeetingToken() + "]"
-				confsByMtgID.remove(conf.getMeetingID());
-				roomsByToken.remove(conf.getMeetingToken());
-				tokenMap.remove(conf.getMeetingToken());
-			} else {
-				println "Not removing meeting [" + conf.getMeetingID() + "]"
-			}
-		}
-	}
 	
 	public Collection<Meeting> getAllMeetings() {
 		return confsByMtgID.isEmpty() ? Collections.emptySet() : Collections.unmodifiableCollection(confsByMtgID.values());
