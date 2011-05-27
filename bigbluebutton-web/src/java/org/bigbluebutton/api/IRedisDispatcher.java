@@ -1,7 +1,7 @@
 package org.bigbluebutton.api;
 
-import org.bigbluebutton.api.domain.DynamicConference;
+import org.bigbluebutton.api.domain.Meeting;
 
 public interface IRedisDispatcher {
-	public void createConferenceRecord(DynamicConference conf, String redisHost, int redisPort);
+	public void createConferenceRecord(Meeting conf, String redisHost, int redisPort);
 }

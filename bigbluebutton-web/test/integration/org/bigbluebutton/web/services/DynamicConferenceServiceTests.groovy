@@ -21,7 +21,7 @@
 package org.bigbluebutton.web.services
 
 import grails.test.*
-import org.bigbluebutton.api.domain.DynamicConference
+import org.bigbluebutton.api.domain.Meeting
 
 class DynamicConferenceServiceTests extends GrailsUnitTestCase {
     protected void setUp() {
@@ -34,16 +34,13 @@ class DynamicConferenceServiceTests extends GrailsUnitTestCase {
 
     void testStoreConference() {
     	DynamicConferenceService service = new DynamicConferenceService()
-    	DynamicConference conf = new DynamicConference("Test Conf", "abc", "123", "456", 30);
+    	Meeting conf = new Meeting("Test Conf", "abc", "123", "456", 30);
     	service.storeConference(conf);
 
     	assertEquals(conf, service.getConferenceByMeetingID("abc"));
-
     	assertNull(service.getConferenceByMeetingID("abd"));
     	assertNull(service.getConferenceByMeetingID(conf.getMeetingToken()));
-
     	assertNull(service.getConferenceByMeetingID("abcd"));
-
     	assertEquals(conf, service.getConferenceByMeetingID("abc"));
     }
     

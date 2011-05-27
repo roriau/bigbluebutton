@@ -4,15 +4,15 @@ import java.util.TimerTask;
 
 public class DynamicConferenceServiceCleanupTimerTask extends TimerTask {
 
-	private final IDynamicConferenceService service;
+	private final IMeetingService service;
 	
-	public DynamicConferenceServiceCleanupTimerTask(IDynamicConferenceService svc) {
+	public DynamicConferenceServiceCleanupTimerTask(IMeetingService svc) {
 		this.service = svc;
 	}
 	
 	@Override
 	public void run() {
-		service.cleanupOldConferences();
+		service.cleanupOldMeetings();
 	}
 
 }

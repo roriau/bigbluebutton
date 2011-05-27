@@ -1,6 +1,6 @@
 package org.bigbluebutton.api;
 
-import org.bigbluebutton.api.domain.DynamicConference;
+import org.bigbluebutton.api.domain.Meeting;
 import redis.clients.jedis.Jedis;
 import java.util.*;
 
@@ -11,7 +11,7 @@ public class RedisDispatcherImp implements IRedisDispatcher {
 	private final static String COLON = ":";
 	
 	@Override
-	public void createConferenceRecord(DynamicConference conf, String redisHost, int redisPort) {
+	public void createConferenceRecord(Meeting conf, String redisHost, int redisPort) {
 		System.out.println("In createConferenceRecord " + redisHost + ":" + redisPort);
 		Jedis jedis = new Jedis(redisHost, redisPort);
 		
