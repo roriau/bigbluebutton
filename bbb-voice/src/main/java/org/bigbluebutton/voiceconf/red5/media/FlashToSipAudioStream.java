@@ -97,7 +97,6 @@ public class FlashToSipAudioStream {
 	}
 	
 	public class TranscodedAudioListener implements TranscodedAudioDataListener {
-		@Override
 		public void handleTranscodedAudioData(byte[] audioData, long timestamp) {
 			if (audioData != null) {
 	  		  rtpSender.sendAudio(audioData, transcoder.getCodecId(), timestamp);

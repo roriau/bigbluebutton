@@ -76,19 +76,16 @@ class WindowlessFrame implements Serializable {
 			mTopOffset = top;
 		}
 
-		@Override
 		public int getLeftOffset() {
 			return mLeftOffset;
 		}
 
-		@Override
 		public int getTopOffset() {
 			return mTopOffset;
 		}
 	}
 
 	private static final PropertyChanger REPAINTER = new PropertyChanger() {
-		@Override
 		public void changeOn(Component component) {
 			if (component instanceof LocationAndSizeUpdateable) {
 				((LocationAndSizeUpdateable) component).updateLocationAndSize();
@@ -558,12 +555,10 @@ class WindowlessFrame implements Serializable {
 		mTopBorder = new HorizontalBarFrame(mWindowFrame, new StaticOffsetLocator(0, 0));
 		mBottomBorder = new HorizontalBarFrame(mWindowFrame, new OffsetLocator() {
 			
-			@Override
 			public int getTopOffset() {
 				return mOverallSize.height;
 			}
 			
-			@Override
 			public int getLeftOffset() {
 				return 0;
 			}
@@ -571,12 +566,10 @@ class WindowlessFrame implements Serializable {
 		
 		mRightBorder = new VerticalBarFrame(mWindowFrame, new OffsetLocator() {
 			
-			@Override
 			public int getTopOffset() {
 				return 0;
 			}
 			
-			@Override
 			public int getLeftOffset() {
 				return mOverallSize.width;
 			}
@@ -586,7 +579,6 @@ class WindowlessFrame implements Serializable {
 		movingAdapter = createMovingMouseListener();
 		resizingAdapter = createResizingMouseListener();
 		changeBarFrames(new PropertyChanger() {
-			@Override
 			public void changeOn(Component component) {
 				component.addMouseListener(resizingAdapter);
 				component.addMouseMotionListener(resizingAdapter);
@@ -606,12 +598,10 @@ class WindowlessFrame implements Serializable {
 
 	public void setToolbar(JPanel toolbar) {
 		final OffsetLocator toolbarOffsetLocator = new OffsetLocator() {
-			@Override
 			public int getTopOffset() {
 				return mOverallSize.height + mBorderWidth;
 			}
 			
-			@Override
 			public int getLeftOffset() {
 				return 0;
 			}
@@ -678,7 +668,6 @@ class WindowlessFrame implements Serializable {
 
 	public final void setVisible(final boolean b) {
 		changeAll(new PropertyChanger() {
-			@Override
 			public void changeOn(Component component) {
 				component.setVisible(b);
 			}

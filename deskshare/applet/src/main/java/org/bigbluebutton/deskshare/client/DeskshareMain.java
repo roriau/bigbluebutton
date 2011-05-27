@@ -145,7 +145,6 @@ public class DeskshareMain implements ClientListener, LifeLineListener {
 		queueExitCode(reason);
 	}
 
-	@Override
 	public void disconnected(ExitCode reason) {
 		queueExitCode(reason);		
 	}

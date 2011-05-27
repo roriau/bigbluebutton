@@ -33,7 +33,6 @@ public class ChangedBlockListenerImp implements ChangedBlocksListener {
 		this.sender = sender;
 	}
 	
-	@Override
 	public void onChangedBlock(BlockMessage blockPosition) {
 		sender.send(blockPosition);
 	}

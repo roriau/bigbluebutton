@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>bigbluebutton</groupId>
+  <artifactId>bigbluebutton</artifactId>
+  <version>0.8-PRE</version>
+  <packaging>pom</packaging>
+
+  <name>BigBlueButton</name>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <modules>
+    <module>bbb-common-message</module>
+    <module>esl-client-bbb</module>
+    <module>bigbluebutton-client</module>
+    <module>bigbluebutton-apps</module>
+    <module>bigbluebutton-web</module>
+    <module>bbb-voice</module>
+    <module>bbb-video</module>
+    <!--<module>deskshare</module>-->
+  </modules>
+
+</project>

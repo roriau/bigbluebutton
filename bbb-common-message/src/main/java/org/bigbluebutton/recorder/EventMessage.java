@@ -43,17 +43,14 @@ public class EventMessage implements IEventMessage, java.io.Serializable {
         this.timestamp=timestamp;
     }
     
-	@Override
 	public String getConferenceID() {
 		return this.conferenceID;
 	}
 
-	@Override
 	public String getMessage() {
 		return this.message;
 	}
 
-	@Override
 	public long getTimeStamp() {
 		return this.timestamp;
 	}

@@ -46,40 +46,33 @@ public class SpeexSipToFlashTranscoderImp implements SipToFlashTranscoder {
         timestamp = rgen.nextInt(1000);
 	}
 
-	@Override
 	public void transcode(byte[] audioData ) {
 		transcodedAudioListener.handleTranscodedAudioData(audioData, timestamp += TS_INCREMENT);
 	}
 	
-	@Override
 	public int getCodecId() {
 		return SPEEX_CODEC;
 	}
 
-	@Override
 	public int getIncomingEncodedFrameSize() {
 		return audioCodec.getIncomingEncodedFrameSize();
 	}
 
-	@Override
 	public void handleData(byte[] audioData, int offset, int len) {
 		byte[] data = new byte[len];
 		System.arraycopy(audioData, offset, data, 0, len);
 		transcode(data);		
 	}
 
-	@Override
 	public void setTranscodedAudioListener(SipToFlashAudioStream sipToFlashAudioStream) {
 		this.transcodedAudioListener = sipToFlashAudioStream;
 		
 	}
 
-	@Override
 	public void start() {
 		// do nothing
 	}
 
-	@Override
 	public void stop() {
 		// do nothing
 	}

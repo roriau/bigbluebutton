@@ -205,7 +205,6 @@ class MeetMeApplicationAdapter extends AbstractAsteriskServerListener implements
 		userStateListener = listener;
 	}
 
-	@Override
 	public void onManagerEvent(ManagerEvent event) {
 		if (event instanceof AbstractMeetMeEvent) {
 			log.debug("MeetMeApplication received event: " + event.getClass().getName());

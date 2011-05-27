@@ -29,7 +29,6 @@ public class BlockMessage implements Message {
 		this.blocks = blocks;
 	}
 	
-	@Override
 	public MessageType getMessageType() {
 		return MessageType.BLOCK;
 	}

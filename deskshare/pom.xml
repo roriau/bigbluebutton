@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>bigbluebutton</groupId>
+  <artifactId>deskshare</artifactId>
+  <version>0.8-PRE</version>
+  <packaging>pom</packaging>
+  <name>deskshare</name>
+  <description>BigBlueButton Desktop Sharing app for Red5</description>
+
+  <modules>
+    <module>applet</module>
+    <module>app</module>
+  </modules>
+</project>

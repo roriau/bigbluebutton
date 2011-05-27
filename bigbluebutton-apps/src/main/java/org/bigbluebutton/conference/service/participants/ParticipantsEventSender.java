@@ -49,6 +49,22 @@ public class ParticipantsEventSender implements IRoomListener {
 	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
+	public void acceptRecorder(IRecorder recorder) {
+		log.debug("Accepting IRecorder");
+		this.recorder = recorder;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void recordEvent(String message) {
+		if (record) {
+			recorder.recordEvent(message);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public void endAndKickAll() {
 		so.sendMessage("logout", new ArrayList());
 		//recordEvent(parseParticipantsToXML(new ArrayList(), this.RECORD_EVENT_LEAVE_ALL));

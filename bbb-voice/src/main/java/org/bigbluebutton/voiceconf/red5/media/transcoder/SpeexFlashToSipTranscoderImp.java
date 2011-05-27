@@ -65,22 +65,18 @@ public class SpeexFlashToSipTranscoderImp implements FlashToSipTranscoder {
 		return audioCodec.getOutgoingPacketization();
 	}
 
-	@Override
 	public void handlePacket(byte[] data, int begin, int end) {
 		transcode(data, begin, end);		
 	}
 
-	@Override
 	public void setTranscodedAudioListener(TranscodedAudioListener transcodedAudioListener) {
 		this.transcodedAudioListener = transcodedAudioListener;		
 	}
 
-	@Override
 	public void start() {
 		// do nothing. just implement the interface.
 	}
 	
-	@Override
 	public void stop() {
 		// do nothing. just implement the interface.
 	}

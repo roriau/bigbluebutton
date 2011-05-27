@@ -55,7 +55,6 @@ public class ConversionUpdatesReceiverImp implements ConversionUpdatesReceiver {
 				//}
 				exec.execute(new Runnable() {
 					
-					@Override
 					public void run() {
 						log.debug("Waiting for JMS messages");
 						while (waitForMessage) {

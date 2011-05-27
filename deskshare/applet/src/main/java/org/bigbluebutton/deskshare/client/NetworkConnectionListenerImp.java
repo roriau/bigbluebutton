@@ -31,7 +31,6 @@ public class NetworkConnectionListenerImp implements NetworkConnectionListener {
 		this.listener = listener;
 	}
 	
-	@Override
 	public void networkConnectionException(ExitCode reason) {
 		System.out.println("Notifying client of network stopping.");
 		listener.onClientStop(reason);

@@ -38,23 +38,19 @@ public class FreeswitchServiceProvider implements ConferenceServiceProvider {
     public void record(String room, String meetingid){
     	appDelegate.record(room,meetingid);
     }
-	
-	@Override
+
 	public void eject(String room, Integer participant) {
 		appDelegate.eject(room, participant);
 	}
 
-	@Override
 	public void mute(String room, Integer participant, Boolean mute) {
 		appDelegate.mute(room, participant, mute);
 	}
 
-	@Override
 	public void populateRoom(String room) {
 		appDelegate.populateRoom(room);
 	}
 
-	@Override
 	public void shutdown() {
 		if ((connection != null) ) {
                     Client c = connection.getESLClient();
@@ -66,7 +62,6 @@ public class FreeswitchServiceProvider implements ConferenceServiceProvider {
 		appDelegate.shutdown();
 	}
 
-	@Override
 	public void startup() {
 		if (connection == null) {
 			log.error("Cannot start application as ESL Client has not been set.");

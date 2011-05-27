@@ -97,7 +97,6 @@ public class CallStream implements StreamObserver {
         userListenStream.stop();
     }
 
-	@Override
 	public void onStreamStopped() {
 		log.debug("STREAM HAS STOPPED " + connInfo.getSocket().getLocalPort());
 		if (callStreamObserver != null) callStreamObserver.onCallStreamStopped();

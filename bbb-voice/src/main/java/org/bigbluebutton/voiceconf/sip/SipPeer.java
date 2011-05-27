@@ -164,19 +164,16 @@ public class SipPeer implements SipRegisterAgentListener {
         }
     }
 
-	@Override
 	public void onRegistrationFailure(String result) {
 		log.error("Failed to register with Sip Server.");
 		registered = false;
 	}
 
-	@Override
 	public void onRegistrationSuccess(String result) {
 		log.info("Successfully registered with Sip Server.");
 		registered = true;
 	}
 
-	@Override
 	public void onUnregistedSuccess() {
 		log.info("Successfully unregistered with Sip Server");
 		registered = false;

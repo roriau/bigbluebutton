@@ -105,7 +105,6 @@ public class NellySipToFlashTranscoderImp implements SipToFlashTranscoder {
 		}
     }
 
-	@Override
 	public void transcode(byte[] audioData) { 
 		if (audioData.length != ULAW_AUDIO_LENGTH) {
 			if (log.isWarnEnabled()) log.warn("Received corrupt audio. Got {}, expected {}.", audioData.length, ULAW_AUDIO_LENGTH);
@@ -150,17 +149,14 @@ public class NellySipToFlashTranscoderImp implements SipToFlashTranscoder {
         }
     }
 		
-	@Override 
-    public int getIncomingEncodedFrameSize() {
+	public int getIncomingEncodedFrameSize() {
     	return audioCodec.getIncomingEncodedFrameSize();
     }
 
-	@Override
 	public int getCodecId() {
 		return NELLYMOSER_CODEC_ID;
 	}
 
-	@Override
 	public void handleData(byte[] audioData, int offset, int len) {
 		try {
 			streamFromSip.write(audioData, offset, len);
@@ -193,8 +189,7 @@ public class NellySipToFlashTranscoderImp implements SipToFlashTranscoder {
 		}	
 	}
 	
-	@Override
-    public void start(){
+	public void start(){
     	processAudioData = true;
     	
     	audioDataProcessor = new Runnable() {
@@ -205,12 +200,10 @@ public class NellySipToFlashTranscoderImp implements SipToFlashTranscoder {
     	exec.execute(audioDataProcessor);
 	}
 	
-	@Override
 	public void stop() {
 		processAudioData = false;
 	}
 
-	@Override
 	public void setTranscodedAudioListener(SipToFlashAudioStream sipToFlashAudioStream) {
 		this.transcodedAudioListener = sipToFlashAudioStream;		
 	}

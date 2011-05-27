@@ -116,17 +116,14 @@ public class SipToFlashAudioStream implements TranscodedAudioDataListener, RtpSt
 	    rtpStreamReceiver.start();
 	}
 	
-	@Override
 	public void onStoppedReceiving() {
 		if (observer != null) observer.onStreamStopped();
 	}
 
-	@Override
 	public void onAudioDataReceived(byte[] audioData, int offset, int len) {
 		transcoder.handleData(audioData, offset, len);
 	}
 	
-	@Override
 	public void handleTranscodedAudioData(byte[] audioData, long timestamp) {
 		if (audioData != null) {
 			pushAudio(audioData, timestamp);

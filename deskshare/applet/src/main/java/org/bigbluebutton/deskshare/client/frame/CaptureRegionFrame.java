@@ -66,7 +66,6 @@ public class CaptureRegionFrame {
 		capturing = false;
 		btnStartStop = new Button("Start Sharing");
 		btnStartStop.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 //				if (capturing) {
 //					capturing = false;

@@ -29,7 +29,6 @@ public class SystemTrayListenerImp implements SystemTrayListener {
 		this.listener = listener;
 	}
 	
-	@Override
 	public void onStopSharingSysTrayMenuClicked() {
 		listener.onClientStop(ExitCode.NORMAL);
 	}

@@ -210,7 +210,6 @@ public class NetworkStreamSender implements NextBlockRetriever, NetworkStreamLis
 		}
 	}
 
-	@Override
 	public void networkException(int id, ExitCode reason) {
 		try {
 			numRunningThreads--;

@@ -147,7 +147,6 @@ public class PresentationEventSender implements IPresentationRoomListener {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public void sharePresentation(String presentationName, Boolean share){
 		log.debug("calling sharePresentationCallback {} {}",presentationName,share);
 		ArrayList list=new ArrayList();
@@ -158,7 +157,6 @@ public class PresentationEventSender implements IPresentationRoomListener {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public void assignPresenter(ArrayList presenter) {
 		log.debug("calling assignPresenterCallback "+presenter.get(0)+", "+presenter.get(1)+" "+presenter.get(2));
 		so.sendMessage("assignPresenterCallback", presenter);
@@ -166,7 +164,6 @@ public class PresentationEventSender implements IPresentationRoomListener {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public void resizeAndMoveSlide(Double xOffset, Double yOffset, Double widthRatio, Double heightRatio) {
 		log.debug("calling moveCallback["+xOffset+","+yOffset+","+widthRatio+","+heightRatio+"]");
 		ArrayList list=new ArrayList();

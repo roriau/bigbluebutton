@@ -44,7 +44,8 @@ class PubsubListener extends JedisPubSub {
 			//params extract
 			String roomname=args[0];
 			String status=args[1];
-			
+git status
+
 			if(status.equalsIgnoreCase("started")){
 				dynamicConferenceService.conferenceStarted2(roomname);
 			}

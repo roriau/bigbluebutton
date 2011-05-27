@@ -36,7 +36,6 @@ public class MouseLocationListenerImp implements MouseLocationListener {
 		this.room = room;
 	}
 	
-	@Override
 	public void onMouseLocationUpdate(Point loc) {
 		CursorMessage msg = new CursorMessage(loc, room);
 		sender.send(msg);

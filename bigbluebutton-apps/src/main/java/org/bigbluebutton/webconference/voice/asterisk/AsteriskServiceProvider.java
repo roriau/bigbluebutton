@@ -41,22 +41,18 @@ public class AsteriskServiceProvider implements ConferenceServiceProvider {
 	private ManagerConnection connection;
 	private Map<String, ConferenceServiceProvider> appsMap = new HashMap<String, ConferenceServiceProvider>();
 	
-	@Override
 	public void eject(String room, Integer participant) {
 		appDelegate.eject(room, participant);
 	}
 
-	@Override
 	public void mute(String room, Integer participant, Boolean mute) {
 		appDelegate.mute(room, participant, mute);
 	}
 
-	@Override
 	public void populateRoom(String room) {
 		appDelegate.populateRoom(room);
 	}
 
-	@Override
 	public void shutdown() {
 		if (ping != null) {
 			log.info("Stopping Keep Alive Ping");
@@ -70,7 +66,6 @@ public class AsteriskServiceProvider implements ConferenceServiceProvider {
 		appDelegate.shutdown();
 	}
 
-	@Override
 	public void startup() {
 		if (connection == null) {
 			log.error("Cannot start application as ManagerConnection has not been set.");

@@ -43,7 +43,6 @@ public class UserStateChangeListener implements PropertyChangeListener {
     
 	private ConferenceEventListener conferenceEventListener;
 	
-	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		MeetMeUser cu = (MeetMeUser) evt.getSource();
 		

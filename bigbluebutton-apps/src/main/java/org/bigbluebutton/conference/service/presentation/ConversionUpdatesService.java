@@ -52,7 +52,6 @@ public class ConversionUpdatesService {
 	public void start() {
 		Thread thread = new Thread(new Runnable() {
 			
-			@Override
 			public void run() {
 				log.info("{} - Will wait for document conversion updates messages.",APP);
 		        

@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<config>
+	<localeversion suppressWarning="false">0.71</localeversion>
+    <version>3818-2011-01-18</version>
+    <help url="http://192.168.0.230/help.html"/>
+    <porttest host="192.168.0.230" application="video"/>    
+    <application uri="rtmp://192.168.0.230/bigbluebutton" host="conf/join-mock.xml" />
+    <language userSelectionEnabled="true" />
+    <skinning enabled="false" url="branding/css/theme.css.swf" />
+    <debug showDebugWindow="true" />
+    
+	<modules>
+
+		<module name="ChatModule" url="modules/ChatModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			dependsOn="ViewersModule"	
+			translationOn="true"
+			translationEnabled="true"	 
+		/>
+		
+		<module name="ViewersModule" url="modules/ViewersModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			host="http://192.168.0.230/bigbluebutton/api/enter"
+			allowKickUser="false"
+		/>
+			
+		<module name="ListenersModule" url="modules/ListenersModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			recordingHost="http://192.168.0.230"
+		/>
+		
+		<module name="DeskShareModule" url="modules/DeskShareModule.swf" 
+			uri="rtmp://192.168.0.230/deskShare"
+		/>
+		
+		<module name="PhoneModule" url="modules/PhoneModule.swf" 
+			uri="rtmp://192.168.0.230/sip" 
+			autoJoin="false"
+			dependsOn="ViewersModule"
+		/>
+		
+		<module name="VideoconfModule" url="modules/VideoconfModule.swf" 
+			uri="rtmp://192.168.0.230/video"
+			dependsOn="ViewersModule"
+			videoQuality="70"
+			presenterShareOnly="false"
+			resolutions="160x120,320x240,640x480,1280x720"
+		/>
+		
+		<module name="WhiteboardModule" url="modules/WhiteboardModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			dependsOn="PresentModule"
+		/>
+		
+		<module name="PresentModule" url="modules/PresentModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			host="http://192.168.0.230" 
+			dependsOn="ViewersModule"
+		/>
+
+		<!-- new module in development: 
+		<module name="DynamicInfoModule" url="modules/DynamicInfoModule.swf" 
+			uri="rtmp://192.168.0.230/bigbluebutton" 
+			host="http://192.168.0.230" 
+			infoURL="http://192.168.0.230/client/conf/example-info-data.xml?user={userID}&role={role}&meetingID={meetingID}"
+		/>
+		-->
+		
+		<!--<module name="ExampleChatModule" url="modules/ExampleChatModule.swf" 
+            uri="rtmp://192.168.0.230/bigbluebutton" 
+            host="http://192.168.0.230"
+		/>-->
+		
+		<!--<module name="BreakoutModule" url="modules/BreakoutModule.swf" 
+			uri="rtmp://192.168.0.225/bigbluebutton" 
+			host="http://192.168.0.225" 
+			dependsOn="ViewersModule"
+			salt="1708e5ecf25b7142b06f2338b4ea3cf1"
+		/>-->
+		
+	</modules>
+</config>

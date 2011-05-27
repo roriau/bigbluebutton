@@ -31,7 +31,6 @@ public class CursorMessage implements Message {
 		this.room = room;
 	}
 	
-	@Override
 	public MessageType getMessageType() {
 		return MessageType.CURSOR;
 	}

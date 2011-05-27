@@ -33,7 +33,6 @@ public class ScreenCaptureListenerImp implements ScreenCaptureListener {
 		this.blockManager = blockManager;
 	}
 	
-	@Override
 	public void onScreenCaptured(BufferedImage screen) {
 		blockManager.processCapturedScreen(screen);				
 	}

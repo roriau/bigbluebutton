@@ -91,7 +91,6 @@ public class ScreenRegionSharer implements ScreenSharer {
 			this.srs = srs;
 		}
 		
-		@Override
 		public void onCaptureRegionMoved(int x, int y) {
 			ssi.x = x;
 			ssi.y = y;
@@ -99,7 +98,6 @@ public class ScreenRegionSharer implements ScreenSharer {
 				sharer.setCaptureCoordinates(x, y);
 		}
 
-		@Override
 		public void onStartCapture(int x, int y, int width, int height) {
 			ssi.x = x;
 			ssi.y = y;
@@ -112,7 +110,6 @@ public class ScreenRegionSharer implements ScreenSharer {
 			sharer.startSharing();
 		}
 
-		@Override
 		public void onStopCapture() {
 			srs.stop();
 		}

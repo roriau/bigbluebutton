@@ -48,13 +48,6 @@ public class ConversionUpdatesMessageListener {
 		conversionUpdatesProcessor.start();
 	}
 
-	/*@Override
-	public void onMessage(Message jmsMessage){
-		if (jmsMessage instanceof MapMessage) {
-        	MapMessage mapMessage = ((MapMessage) jmsMessage);
-			handleReceivedMessage(mapMessage);
-        }
-	}*/
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void handleReceivedMessage(Map mapMessage) {

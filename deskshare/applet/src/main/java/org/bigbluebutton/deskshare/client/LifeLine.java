@@ -57,7 +57,6 @@ public class LifeLine {
 	}
 	
 	private class LifeLineServer implements Runnable {		
-		@Override
 		public void run() {
 			 try {
 		            serverSocket = new ServerSocket();

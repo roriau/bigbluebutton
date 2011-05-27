@@ -7,3 +7,4 @@ bin
 .scala_dependencies
 .manager
 .gradle
+target/

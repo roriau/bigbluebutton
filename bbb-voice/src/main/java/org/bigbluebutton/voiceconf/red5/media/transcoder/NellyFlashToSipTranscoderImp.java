@@ -103,7 +103,6 @@ public class NellyFlashToSipTranscoderImp implements FlashToSipTranscoder {
 		}
     }
     
-    @Override
     public void start() {
     	processAudioData = true;	 
 	    audioDataProcessor = new Runnable() {
@@ -114,17 +113,14 @@ public class NellyFlashToSipTranscoderImp implements FlashToSipTranscoder {
     	exec.execute(audioDataProcessor);
     }
 
-    @Override
     public int getOutgoingEncodedFrameSize() {
     	return sipCodec.getOutgoingEncodedFrameSize();
     }
 
-    @Override
     public int getCodecId() {
     	return sipCodec.getCodecId();
     }
     
-    @Override
     public void handlePacket(byte[] data, int begin, int end) {
 		try {
 			streamFromFlash.write(data, begin, end);
@@ -158,7 +154,6 @@ public class NellyFlashToSipTranscoderImp implements FlashToSipTranscoder {
 		}	
 	}
 	
-	@Override
 	public void transcode(byte[] audioData, int startOffset, int length) {
 		if (audioData.length != NELLY_AUDIO_LENGTH) {
 			if (log.isWarnEnabled()) log.warn("Receiving bad nelly audio. Expecting {}, got {}.", NELLY_AUDIO_LENGTH, audioData.length);
@@ -225,8 +220,7 @@ public class NellyFlashToSipTranscoderImp implements FlashToSipTranscoder {
 		this.transcodedAudioListener = transcodedAudioListener;
 	}
 	
-	@Override
-    public void stop() {
+	public void stop() {
     	processAudioData = false;
     }
 

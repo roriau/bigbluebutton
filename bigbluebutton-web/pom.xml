@@ -3,18 +3,19 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.bigbluebutton</groupId>
-  <artifactId>bigbluebutton</artifactId>
+  <artifactId>bigbluebutton-web</artifactId>
   <packaging>war</packaging>
-  <version>0.70dev</version>
-  
-  <name>A custom grails project</name>
-  <description>A custom grails project</description>
-  <url>http://www.myorganization.org</url>
-  
+  <name>BigBlueButton Web</name>
+  <description>API and Presentation Conversion</description>
   <properties>
     <grails.version>1.3.7</grails.version>
   </properties>
+  
+  <parent>
+    <artifactId>bigbluebutton</artifactId>
+    <groupId>bigbluebutton</groupId>
+    <version>0.8-PRE</version>
+  </parent>
   
   <dependencies>
     <dependency>
@@ -151,27 +152,6 @@
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
     </dependency>
-    
-    <!-- Grails defaults to Ehache for the second-level Hibernate cache. -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-ehcache</artifactId>
-      <version>3.3.1.GA</version>
-        <exclusions>
-          <!-- See http://www.slf4j.org/faq.html#IllegalAccessError -->
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-          </exclusion>
-          
-          <!-- We are pulling in ehcache-core below -->
-          <exclusion>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-          </exclusion>
-        </exclusions>
-    </dependency>
-        
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache-core</artifactId>
@@ -183,14 +163,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
-    <!-- For ease of development and testing, we include the HSQLDB database. -->
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>1.8.0.10</version>
-    </dependency>
-    
     <!-- Use Log4J for logging. This artifact also pulls in the Log4J JAR. -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -205,37 +177,135 @@
       <scope>runtime</scope>
     </dependency>
     
-    <!-- Needed in the case of AOP usage -->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>1.6.8</version>
+	<!-- BigBlueButton Dependecies -->
+	<dependency>
+  		<groupId>org.apache.activemq</groupId>
+  		<artifactId>activemq-core</artifactId>
+  		<version>5.1.0</version>
+  		<exclusions>
+		  <exclusion>
+		    <groupId>org.apache.activemq</groupId>
+		    <artifactId>activeio-core</artifactId>
+		  </exclusion>
+        </exclusions>
+  	</dependency>
+	
+	<dependency>
+  		<groupId>org.asteriskjava</groupId>
+  		<artifactId>asterisk-java</artifactId>
+  		<version>0.3.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>bigbluebutton</groupId>
+        <artifactId>bbb-common-message</artifactId>
+        <version>0.8-PRE</version> 
     </dependency>
-    
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>1.6.8</version>
+	
+	<dependency>
+		<groupId>commons-cli</groupId>
+		<artifactId>commons-cli</artifactId>
+		<version>1.2</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.3</version>
+	</dependency>
+
+	<dependency>
+		<groupId>commons-httpclient</groupId>
+		<artifactId>commons-httpclient</artifactId>
+		<version>3.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>1.4</version>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.apache.geronimo.specs</groupId>
+  		<artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+	
+	<dependency>
+  		<groupId>org.apache.geronimo.specs</groupId>
+  		<artifactId>geronimo-jms_1.1_spec</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+  	
+	<dependency>
+  		<groupId>org.codehaus.groovy</groupId>
+  		<artifactId>groovy-all</artifactId>
+  		<version>1.7.8</version>
+  	</dependency>
+	
+	<dependency>
+     	<groupId>com.artofsolving</groupId>
+     	<artifactId>jodconverter</artifactId>
+     	<version>2.2.1</version>
     </dependency>
-    
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.3</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-      <version>1.5.3</version>
-    </dependency>
-    
+	
+	<dependency>
+		<groupId>org.openoffice</groupId>
+		<artifactId>juh</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.openoffice</groupId>
+		<artifactId>jurt</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.openoffice</groupId>
+		<artifactId>ridl</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.springframework.integration</groupId>
+  		<artifactId>spring-integration-core</artifactId>
+  		<version>1.0.4.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.integration</groupId>
+  		<artifactId>spring-integration-adapter</artifactId>
+  		<version>1.0.4.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.integration</groupId>
+  		<artifactId>spring-integration-stream</artifactId>
+  		<version>1.0.4.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.integration</groupId>
+  		<artifactId>spring-integration-file</artifactId>
+  		<version>1.0.4.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.integration</groupId>
+  		<artifactId>spring-integration-jms</artifactId>
+  		<version>1.0.4.RELEASE</version>
+  	</dependency>
+	
+	<dependency>
+		<groupId>org.openoffice</groupId>
+		<artifactId>unoil</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>xstream</groupId>
+		<artifactId>xstream</artifactId>
+		<version>1.2.2</version>
+	</dependency>
+	
   </dependencies>
   
   <dependencyManagement>
@@ -250,11 +320,26 @@
   </dependencyManagement>
   
   <repositories>
-	  <!-- Required to get hold of javassist:javassist -->
     <repository>
-      <id>jboss.org</id>
-      <name>jboss.org</name>
-      <url>http://repository.jboss.com/maven2/</url>
+        <id>jboss.org</id>
+        <name>jboss.org</name>            
+        <url>http://repository.jboss.com/maven2/</url>
+    </repository>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2/</url>
+      <layout>default</layout>
+    </repository>
+    <repository>
+      <id>Codehaus Snapshots</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </repository>
   </repositories>
   

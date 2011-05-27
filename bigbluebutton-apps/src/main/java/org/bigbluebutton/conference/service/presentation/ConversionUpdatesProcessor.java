@@ -53,7 +53,6 @@ public class ConversionUpdatesProcessor {
 			exec.execute(new Runnable() {
 				
 				@SuppressWarnings("unchecked")
-				@Override
 				public void run() {
 					log.debug("Waiting for JMS message to process.");
 					while (processMessage) {

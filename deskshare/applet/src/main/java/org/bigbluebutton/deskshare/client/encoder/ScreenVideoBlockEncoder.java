@@ -30,6 +30,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.bigbluebutton.deskshare.client.blocks.Block;
+import org.bigbluebutton.deskshare.client.encoder.BlockEncodeException;
 
 public class ScreenVideoBlockEncoder {
 	private ExecutorService executor;

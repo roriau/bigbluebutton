@@ -172,7 +172,6 @@ public class BigBlueButtonApplication extends MultiThreadedApplicationAdapter {
 	
 	private class ShutdownHookListener implements ApplicationListener<ApplicationEvent> {
 
-		@Override
 		public void onApplicationEvent(ApplicationEvent event) {
 			if (event instanceof org.springframework.context.event.ContextStoppedEvent) {
 				log.info("Received shutdown event. Red5 is shutting down. Destroying all rooms.");
