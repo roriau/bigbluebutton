@@ -69,6 +69,7 @@ public class Meeting {
 		//remove bbb-commons
 		this.participants = new ArrayList<Participant>();
 		this.metadata= new Hashtable<String, String>();
+		addMetadataValue("title", "Default Title");
 	}
 
 	public static String createMeetingToken() {
