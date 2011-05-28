@@ -64,7 +64,7 @@
 				'Thai',
 				'Turkish',
 				'Ukrainian',
-				'Vietnamese',]  ;
+				'Vietnamese']  ;
 			
 			private var langCodes:Array=[
 				'az_AZ',
@@ -107,7 +107,7 @@
 			
 			private function changeLanguage():void{
 				var lang:String = this.langCodes[this.selectedIndex];
-				ResourceUtil.getInstance().changeLocale([lang]);
+				ResourceUtil.getInstance().changeLocale(lang);
 			}
 		]]>
 	</mx:Script>

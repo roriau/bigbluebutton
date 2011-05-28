@@ -334,6 +334,10 @@
 			private function localeChanged(e:LocaleChangeEvent):void{
 				resourcesChanged();
 			}
+
+			private function onResize():void{
+				setWindowWidth(this.width);
+			}
 			
 		]]>
 	</mx:Script>
