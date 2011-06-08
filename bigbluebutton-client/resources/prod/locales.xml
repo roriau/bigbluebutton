@@ -14,6 +14,7 @@
 	<locale code="it_IT" name="Italian"/>
     <locale code="ko_KR" name="Korean"/>
 	<locale code="lt_LT" name="Lithuania"/>
+        <locale code="mn_MN" name="Mongolian"/>
 	<locale code="nb_NO" name="Norwegian"/>
 	<locale code="nl_NL" name="Netherland"/>
 	<locale code="pl_PL" name="Polish"/>
